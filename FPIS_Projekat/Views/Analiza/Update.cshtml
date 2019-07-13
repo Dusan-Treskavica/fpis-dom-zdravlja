@@ -1,0 +1,141 @@
+﻿@model FPIS_Projekat.ViewModels.AnalizaViewModel;
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h2>Izmena Analize</h2>
+
+<form method="post" asp-action="Izmeni" enctype="multipart/form-data">
+    <div class="form-border">
+
+        @if (Model.ErrorMessage != null && Model.ErrorMessage != "")
+        {
+            <div class="alert alert-warning" id="poruka-info">
+                <div class="poruka">
+                    @Html.LabelFor(model => model.ErrorMessage, Model.ErrorMessage)
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" id="poruka-info" hidden>
+                <div class="poruka">
+                </div>
+            </div>
+        }
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.AnalizaDTO.SifraAnalize, new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.AnalizaDTO.SifraAnalize, new { htmlAttributes = new { @class = "form-control", @placeholder = "Unesite sifru analize..." } })
+            </div>
+
+            <div class="col-md-2">
+                <input type="button" id="nova-analiza" value="Nova Analizu" class="btn btn-primary" disabled />
+            </div>
+            <div class="col-md-2">
+                <input type="button" id="nadji-analizu" value="Pronadji Analizu" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-2 col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.SifraAnalize, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.AnalizaDTO.NazivAnalize, new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.AnalizaDTO.NazivAnalize, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-2 col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.NazivAnalize, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.LabelFor(model => model.AnalizaDTO.DonjaGranica, new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.AnalizaDTO.DonjaGranicaJedinicaMere, new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.EditorFor(model => model.AnalizaDTO.DonjaGranica, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(Model => Model.AnalizaDTO.DonjaGranicaJedinicaMere, Model.JedinicaMereLista, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.DonjaGranica, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.DonjaGranicaJedinicaMere, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.LabelFor(model => model.AnalizaDTO.GornjaGranica, new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.AnalizaDTO.GornjaGranicaJedinicaMere, new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.EditorFor(model => model.AnalizaDTO.GornjaGranica, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(Model => Model.AnalizaDTO.GornjaGranicaJedinicaMere, Model.JedinicaMereLista, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.GornjaGranica, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(Model => Model.AnalizaDTO.GornjaGranicaJedinicaMere, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="form-group">
+            <input type="submit" value="Sacuvaj Izmene" class="btn btn-primary" />
+            <a asp-action="PrikaziSve" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
+<div id="loadingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <p>Loading ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<br />

@@ -1,0 +1,226 @@
+﻿@model FPIS_Projekat.ViewModels.KarticaEvidencijeViewModel;
+@using FPIS_Projekat.Extensions;
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h2>Izmena kartice za evidenciju terapije</h2>
+<hr />
+
+<form method="post" asp-action="Izmeni" enctype="multipart/form-data">
+
+    <div class="form-border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="alert alert-warning" id="poruka-info" hidden>
+            <div class="poruka">
+            </div>
+        </div>
+
+        <div class="alert alert-warning" id="poruka-info" hidden>
+            <div class="poruka">
+                @Html.LabelFor(model => model.ErrorMessage, Model.ErrorMessage)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.DatumIzdavanja)
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.DatumIzdavanja, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+        <hr />
+        <br />
+        <br />
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.BrojUputa, new { @class = "control-label" })
+            </div>
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.BrojUputa, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <span asp-validation-for="KarticaZaEvidencijuDTO.BrojUputa" class="text-danger"></span>
+
+            <input type="button" id="kreiraj-karticu" value="Nova kartica" class="btn btn-primary" disabled />
+        </div>
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.SifraKartice, new { @class = "control-label" })
+            </div>
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.SifraKartice, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <span asp-validation-for="KarticaZaEvidencijuDTO.SifraKartice" class="text-danger"></span>
+
+            <input type="button" id="nadji-karticu" value="Pronadji karticu" class="btn btn-primary" />
+        </div>
+
+        <br />
+        <br />
+        <div class="form-group form-group-border">
+            <label class="custom-label"><u>Podaci Pacijenta</u></label>
+            <br />
+            <br />
+            <div class="bordered-form-group">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.ImePrezime, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.ImePrezime, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+
+                    <div class="col-md-1">
+                        @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.Pol, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.Pol, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.DatumRodjenja, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.DatumRodjenja, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+
+                    <div class="col-md-1">
+                        @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.Telefon, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.Telefon, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.JmbgPacijenta, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.KarticaZaEvidencijuDTO.UputZaTerapiju.Pacijent.JmbgPacijenta, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.KarticaZaEvidencijuDTO.SifraUsluge, new { @class = "control-label" })
+            </div>
+
+            <div id="div-usluge" class="col-md-4">
+                @if (Model.Usluge != null && Model.Usluge.Count() != 0)
+                {
+                    @Html.DropDownListFor(model => model.KarticaZaEvidencijuDTO.SifraUsluge, new SelectList(Model.Usluge, "Value", "Text", Model.KarticaZaEvidencijuDTO.SifraUsluge), htmlAttributes: new { @class = "form-control" })
+                }
+                else
+                {
+                    <select id="KarticaZaEvidencijuDTO_SifraUsluge" name="id="KarticaZaEvidencijuDTO.SifraUsluge"" class="form-control">
+                        <option></option>
+                    </select>
+                }
+                <span asp-validation-for="KarticaZaEvidencijuDTO.SifraUsluge" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-1">
+                <input id="izborUslugeBtn" type="button" class="btn btn-primary" value="Izaberi">
+            </div>
+
+        </div>
+
+        <div class="form-group form-group-border">
+            <label class="custom-label"><u>Unos termina</u></label>
+            <br />
+            <br />
+            <div class="bordered-form-group">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label class="custom-label">Datum termina</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input id="DatumTermina" type="date" data-date="" data-date-format="DD MM YYYY" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6 table-wrapper-scroll-y">
+
+                        <table id="table_source" class="table">
+                            <thead>
+                                <tr>
+                                    <th hidden>ID</th>
+                                    <th>Fizioterapeut</th>
+                                    <th>Vreme</th>
+                                    <th>Dodaj</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-termini-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 table-wrapper-scroll-y">
+                        <table id="table_dest" class="table">
+                            <thead>
+                                <tr>
+                                    <th hidden>ID</th>
+                                    <th>Fizioterapeut</th>
+                                    <th>Vreme</th>
+                                    <th>Status</th>
+                                    <th>Ukloni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-odabraniTermini-body">
+                                @for (int i = 0; i < Model.KarticaZaEvidencijuDTO.OdabraniTermini.Count; i++)
+                                {
+                                    <tr>
+                                        <input type="hidden" name="KarticaZaEvidencijuDTO.OdabraniTermini.Index" value="@i" />
+                                        <td class="radnikId" hidden><input name="KarticaZaEvidencijuDTO.OdabraniTermini[@i].RadnikId" type="text" value="@Model.KarticaZaEvidencijuDTO.OdabraniTermini[i].RadnikId"></td>
+                                        <td class="fizioterapeut"> <label name="Fizioterapeut">@Model.KarticaZaEvidencijuDTO.OdabraniTermini[i].ImeRadnika</label></td>
+                                        <td class="vremeTerapije"> <label name="VremeTermina">@Model.KarticaZaEvidencijuDTO.OdabraniTermini[i].VremeDatumTerapije.ToString("dd-MMM-yyyy H:mm")</label></td>
+                                        <td class="vremeDatumTerapije" hidden><input name="KarticaZaEvidencijuDTO.OdabraniTermini[@i].VremeDatumTerapije" type="text" value="@Model.KarticaZaEvidencijuDTO.OdabraniTermini[i].VremeDatumTerapije"></td>
+                                        <td class="statusTermina">
+                                            @Html.DropDownListFor(model => model.KarticaZaEvidencijuDTO.OdabraniTermini[i].Status,
+                                                  new SelectList(Model.StatusiTermina, "Value", "Text", Model.KarticaZaEvidencijuDTO.OdabraniTermini[i].Status),
+                                                  htmlAttributes: new { @class = "form-control" })
+                                        </td>
+                                        <td class="btn move-row">Izaberi</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Zapamti" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-success">Nazad na listu</a>
+        </div>
+    </div>
+</form>
+
+<div id="loadingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <p>Loading ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+

@@ -1,0 +1,72 @@
+﻿@model FPIS_Projekat.ViewModels.KarticaEvidencijeViewModel;
+@{
+    ViewData["Title"] = "ShowAll";
+}
+
+<h2>Prikaz svih Kartica za Evidenciju</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <hr />
+            <div class="container-fluid">
+
+                @if (Model.ErrorMessage != null && Model.ErrorMessage != "")
+                {
+                    <div class="alert alert-warning" id="poruka-info">
+                        <div class="poruka">
+                            @Html.LabelFor(model => model.ErrorMessage, Model.ErrorMessage)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" id="poruka-info" hidden>
+                        <div class="poruka">
+                        </div>
+                    </div>
+                }
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-6">
+                                <input id="karticePretraga" type="text" class="search-query form-control" placeholder="Pretrazi" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button" onclick="filterKarticaZaEvidenciju()"> @*TODO// filter funkcija*@
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped table-hover" id="myTable">
+                        <thead>
+                            <tr id="column_names_row">
+                                <th>RB</th>
+                                <th>Sifra</th>
+                                <th>Naziv Pacijenta</th>
+                                <th>Naziv Usluge</th>
+                            </tr>
+                        </thead>
+                        <tbody id="karticeTableBody">
+                            @for (int i = 0; i < Model.KarticeZaEvidencijuDTO.Count(); i++)
+                            {
+                                <tr style="text-align: left;">
+                                    <td>@(i + 1)</td>
+                                    <td>@Model.KarticeZaEvidencijuDTO.ElementAt(i).SifraKartice</td>
+                                    <td class="nazivPacijenta">@Model.KarticeZaEvidencijuDTO.ElementAt(i).UputZaTerapiju.Pacijent.ImePrezime</td>
+                                    <td>@Model.KarticeZaEvidencijuDTO.ElementAt(i).NazivUsluge</td>
+                                    <td><a href="/KarticaEvidencije/Prikazi/@Model.KarticeZaEvidencijuDTO.ElementAt(i).SifraKartice">Prikazi</a></td>
+                                    <td><a href="/KarticaEvidencije/Obrisi/@Model.KarticeZaEvidencijuDTO.ElementAt(i).SifraKartice" onclick="return confirm('Da li ste sigurni da zelite da obrisete ovu Karticu?')">Obrisi</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
