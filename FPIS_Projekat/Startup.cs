@@ -25,6 +25,7 @@ namespace FPIS_Projekat
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //komentar
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<FPISDBContext>(options =>
