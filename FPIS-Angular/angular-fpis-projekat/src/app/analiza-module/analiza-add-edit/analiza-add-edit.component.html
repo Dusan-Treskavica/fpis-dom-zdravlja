@@ -1,0 +1,86 @@
+<form #form="ngForm">
+    <div *ngIf="validacionaPoruka" class="alert alert-danger" role="alert">
+        {{validacionaPoruka}}
+    </div>
+
+    <div class="analiza-add-edit-heading">
+        <h1 class="display-4">Analiza</h1>
+    </div>
+    <hr/>
+    
+    <div class="form-group row">
+            <div class="col-md-2">
+                <label for="SifraAnalize" class="control-label" >Sifra Analize</label>
+            </div>
+            <div class="col-md-4">
+                <input mdbInput [(ngModel)]="model.sifraAnalize" [name]="'sifraAnalize'" type="text" class="form-control" id="SifraAnalize" placeholder="SifraAnalize" [disabled]="isSifraAnalizeDisabled">
+            </div>
+    
+            <div class="col-md-2">
+                <input type="button" id="nova-analiza" value="Nova Analizu" class="btn btn-primary" (click)="vratiSifruZaNovuAnalizu()" />
+            </div>
+            <div class="col-md-2">
+                <input type="button" value="Pronadji Analizu" class="btn btn-primary" (click)="pronadjiAnalizu()"/>
+            </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-md-2">
+            <label for="NazivAnalize" class="control-label" >Naziv Analize</label>
+        </div>
+        <div class="col-md-4">
+            <input mdbInput type="text" [(ngModel)]="model.nazivAnalize" [name]="'nazivAnalize'" class="form-control" id="NazivAnalize" placeholder="NazivAnalize">
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="form-group row">
+        <div class="offset-md-1 col-md-4">
+            <label for="DonjaGranica" class="control-label" >Donja Granica</label>
+        </div>
+        <div class="col-md-4">
+            <label for="DonjaGranicaJedinicaMere" class="control-label" >Donja Granica Jedinica Mere</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-md-1 col-md-4">
+            <input mdbInput type="number" [(ngModel)]="model.donjaGranica" [name]="'donjaGranica'" min="0" class="form-control" id="DonjaGranica" placeholder="DonjaGranica">
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" [(ngModel)]="model.donjaGranicaJedinicaMere" [name]="'donjaGranicaJedinicaMere'" id="DonjaGranicaJedinicaMere">
+                <option *ngFor="let item of jediniceMereLookup" [value]="item.key">{{item.value}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-md-1 col-md-4">
+            <label for="GornjaGranica" class="control-label" >Gornja Granica</label>
+        </div>
+        <div class="col-md-4">
+            <label for="GornjaGranicaJedinicaMere" class="control-label" >Gornja Granica Jedinica Mere</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-md-1 col-md-4">
+            <input mdbInput type="number" [(ngModel)]="model.gornjaGranica" [name]="'gornjaGranica'" min="0" class="form-control" id="GornjaGranica" placeholder="GornjaGranica">
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" [(ngModel)]="model.gornjaGranicaJedinicaMere" [name]="'gornjaGranicaJedinicaMere'" id="GornjaGranicaJedinicaMere">
+                <option *ngFor="let item of jediniceMereLookup" [value]="item.key">{{item.value}}</option>
+            </select>
+        </div>
+    </div>
+    
+    <br/>
+    <br/>
+
+    <div class="form-group">
+        <input type="button" value="Sacuvaj" class="btn btn-primary" (click)="sacuvaj()" />
+        <a class="btn btn-success" (click)="prikaziSveAnalize()">Nazad na listu</a>
+    </div>
+
+</form>

@@ -1,8 +1,8 @@
-﻿using FPIS_Projekat.Services.DTO;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using WebApp.DTO;
 
-namespace FPIS_Projekat.ViewModels
+namespace WebApp.ViewModels
 {
     public class AnalizaViewModel
     {

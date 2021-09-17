@@ -1,0 +1,40 @@
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="active">Dom Zdravlja</a>
+  
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav mr-auto">
+        <li *ngIf="appUserObject?.isAuthenticated" class="nav-item dropdown" ngbDropdown>
+            <a class="nav-link dropdown-toggle" id="nav-dropdown-karitcaZaEvideniciju" routerLinkActive="active" [routerLinkActiveOptions]="{ exact : true}" ngbDropdownToggle>Kartica za evidenciju</a>
+            <div class="dropdown-menu" aria-labelledby="nav-dropdown-karitcaZaEvideniciju" ngbDropdownMenu>
+                <a class="dropdown-item" [routerLink]="['/kartica-za-evidenciju/kartica-za-evidenciju-add-edit/0']">Kreiraj</a>
+                <a class="dropdown-item" [routerLink]="['/kartica-za-evidenciju']">Prikazi sve</a>
+            </div>
+        </li>
+        <li *ngIf="appUserObject?.isAuthenticated" class="nav-item dropdown" ngbDropdown>
+            <a class="nav-link dropdown-toggle" id="nav-dropdown-analiza" ngbDropdownToggle>Analiza</a>
+            <div class="dropdown-menu" aria-labelledby="nav-dropdown-analiza" ngbDropdownMenu>
+                <a class="dropdown-item" [routerLink]="['/analiza/analiza-add-edit/0']">Kreiraj</a>
+                <a class="dropdown-item" [routerLink]="['/analiza']">Prikazi sve</a>
+            </div>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a *ngIf="!appUserObject?.isAuthenticated" routerLink="login" class="nav-link">
+            Login
+          </a>
+          <a *ngIf="appUserObject?.isAuthenticated" class="nav-link" (click)="logout()">
+            Logout, {{appUserObject?.userName}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>

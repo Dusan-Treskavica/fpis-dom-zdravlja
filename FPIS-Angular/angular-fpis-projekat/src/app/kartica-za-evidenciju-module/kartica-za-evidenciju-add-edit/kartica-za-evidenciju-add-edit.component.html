@@ -1,0 +1,185 @@
+<form #form="ngForm">
+    <div *ngIf="validacionaPoruka" class="alert alert-danger" role="alert">
+        {{validacionaPoruka}}
+      </div>
+    <div class="kartica-za-evidenciju-add-edit-heading">
+        <h1 class="display-4">Kartica za evidenciju</h1>
+    </div>
+    <hr/>
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            <label for="DatumIzdavanja" class="control-label" >Datum Izdavanja</label>
+        </div>
+        <div class="col-md-4">
+            <input [ngModel]="datumIzdavanjaKartice | date:'yyyy-MM-dd'" [name]="'datumIzdavanja'" type="date" class="form-control" id="DatumIzdavanja" placeholder="Datum Izdavanja" disabled>
+        </div>
+    </div>
+    <hr/>
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            <label for="BrojUputa" class="control-label" >Broj Uputa</label>
+        </div>
+        <div class="col-md-4">
+            <input [(ngModel)]="model.brojUputa" [name]="'brojUputa'" type="text" class="form-control" id="BrojUputa" placeholder="Broj Uputa">
+        </div>
+
+        <div class="col-md-2">
+            <input type="button" id="nova-kartica" value="Nova Kartica" class="btn btn-primary" (click)="kreirajNovuKarticu()"/>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-md-2">
+            <label for="SifraKartice" class="control-label" >Sifra Kartice</label>
+        </div>
+        <div class="col-md-4">
+            <input [(ngModel)]="model.sifraKartice" [name]="'sifraKartice'" type="text" class="form-control" id="SifraKartice" placeholder="Sifra Kartice" [disabled]="isSifraKarticeDisabled">
+        </div>
+
+        <div class="col-md-2">
+            <input type="button" value="Pronadji Analizu" class="btn btn-primary"/>
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+    
+    <div class="form-group form-group-border">
+        <label class="custom-label"><u>Podaci Pacijenta</u></label>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="ImePrezime" class="control-label" >Ime i Prezime</label>
+            </div>
+            <div class="col-md-3">
+                <input [(ngModel)]="model.uputZaTerapiju.pacijent.imePrezime" [name]="'imePrezime'" type="text" class="form-control" id="ImePrezime" placeholder="ImePrezime" disabled>
+            </div>
+
+            <div class="col-md-1">
+                <label for="Pol" class="control-label">Pol</label>
+            </div>
+            <div class="col-md-3">
+                <input [(ngModel)]="model.uputZaTerapiju.pacijent.pol" [name]="'pol'" type="text" class="form-control" id="Pol" placeholder="Pol" disabled>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="DatumRodjenja" class="control-label">Datum Rodjenja</label>
+            </div>
+            <div class="col-md-3">
+                <input [(ngModel)]="model.uputZaTerapiju.pacijent.datumRodjenja" [name]="'datumRodjenja'" type="text" class="form-control" id="DatumRodjenja" placeholder="DatumRodjenja" disabled>
+            </div>
+
+            <div class="col-md-1">
+                <label for="Pol" class="control-label">Telefon</label>
+            </div>
+            <div class="col-md-3">
+                <input [(ngModel)]="model.uputZaTerapiju.pacijent.telefon" [name]="'telefon'" type="text" class="form-control" id="Telefon" placeholder="Telefon" disabled>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="JmbgPacijenta" class="control-label">Jmbg Pacijenta</label>
+            </div>
+            <div class="col-md-3">
+                <input [(ngModel)]="model.uputZaTerapiju.pacijent.jmbgPacijenta" [name]="'jmbgPacijenta'" type="text" class="form-control" id="JmbgPacijenta" placeholder="JmbgPacijenta" disabled>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="form-group row">
+        <div class="col-md-1">
+            <label for="Usluga" class="control-label" >Usluga</label>
+        </div>
+        <div class="col-md-4">
+            <select #uslugaSelect class="form-control" [(ngModel)]="model.sifraUsluge" [name]="'usluga'" id="Usluga">
+                <option *ngFor="let item of uslugeLookup" [value]="item.sifra">{{item.naziv}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-1">
+            <label for="Usluga" class="control-label" >Datum Terapije</label>
+        </div>
+        <div class="col-md-4">
+            <input [(ngModel)]="izabraniDatumTerapije" [name]="'datumTerapije'" type="date" class="form-control" id="DatumTerapije" placeholder="Datum Terapije" (change)='onDatumTerapijeChanged($event)'>
+        </div>
+        <div class="col-md-1">
+            <input type="button" class="btn btn-primary" value="Vrati Slobodne Termine" id="btnVratiSlobodneTermine" (click)='vratiSlobodneTermine()'>
+        </div>
+    </div>
+    
+
+    <div class="form-group row">
+        <div class="col-md-6 table-wrapper-scroll-y">
+
+            <table mdbTable #tableEl="mdbTable" id="slobodniTerminiTerapijeTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Fizioterapeut</th>
+                        <th>Usluga</th>
+                        <th>Datum</th>
+                        <th>Vreme</th>
+                        <th>Dodaj</th>
+                    </tr>
+                </thead>
+                <tbody id="table-termini-body">
+                    <tr *ngFor="let termin of filtriraniSlobodniTermini | paginate: paginationSlobodniTerminiConfig">
+                        <td>{{termin.fizioterapeut}}</td>
+                        <td>{{termin.nazivUsluge}}</td>
+                        <td>{{termin.datumTerapije}}</td>
+                        <td>{{termin.vremeTerapije}}</td>
+                        <td (click)="odaberiTerminTerapije(termin)">Izaberi</td>
+                    </tr>   
+                </tbody>
+            </table>
+            <div class="table-pagination">
+                <pagination-controls id="slobodniTerminiPagination" (pageChange)="pageSlobodniTerminiChanged($event)"></pagination-controls>
+            </div>
+        </div>
+
+        <div class="col-md-6 table-wrapper-scroll-y">
+            <table mdbTable #tableEl="mdbTable" id="odabraniTerminiTerapijeTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Fizioterapeut</th>
+                        <th>Usluga</th>
+                        <th>Datum</th>
+                        <th>Vreme</th>
+                        <th>Status</th>
+                        <th>Ukloni</th>
+                    </tr>
+                </thead>
+                <tbody id="table-odabraniTermini-body">
+                    <tr *ngFor="let odabraniTermin of odabraniTerminiTerapije | paginate: paginationOdabraniTerminiConfig">
+                        <td>{{odabraniTermin.terminTerapije.fizioterapeut}}</td>
+                        <td>{{odabraniTermin.terminTerapije.nazivUsluge}}</td>
+                        <td>{{odabraniTermin.terminTerapije.datumTerapije}}</td>
+                        <td>{{odabraniTermin.terminTerapije.vremeTerapije}}</td>
+                        <td>
+                            <select #statusTermina class="form-control" [name]="'statusTermina'" id="statusTermina" (change)="promeniStatusTermina(odabraniTermin, $event)">
+                                <option *ngFor="let item of statusiTerminaLookup" [value]="item.key" [selected]="item.key==odabraniTermin.status">{{item.value}}</option>
+                            </select>
+                        </td>
+                        <td (click)="ukloniIzabraniTerminTerapije(odabraniTermin)">Ukloni</td>
+                    </tr> 
+                </tbody>
+            </table>
+            <div class="table-pagination">
+                <pagination-controls id="odabraniTerminiPagination" (pageChange)="pageOdabraniTerminiChanged($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="button" value="Sacuvaj" class="btn btn-primary" (click)="sacuvaj()" />
+        <a class="btn btn-success" (click)="prikaziSveKartice()">Nazad na listu</a>
+    </div>
+
+</form>

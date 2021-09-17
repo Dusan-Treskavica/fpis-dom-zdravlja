@@ -1,6 +1,4 @@
-using System;
-
-namespace FPIS_Projekat.ViewModels
+namespace WebApp.ViewModels
 {
     public class ErrorViewModel
     {

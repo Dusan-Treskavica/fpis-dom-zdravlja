@@ -1,0 +1,40 @@
+<div class="analiza-datatable-heading">
+    <h1 class="display-4">Analize</h1>
+</div>
+<div *ngIf="validacionaPoruka" class="alert alert-danger" role="alert">
+    {{validacionaPoruka}}
+</div>
+
+<div class="row">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="tekstPretrage" placeholder="Pretraga..." aria-label="Sadrzaj pretraga"
+        (keyup)="pretraziNaEnter($event)">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="pretraziAnalize()">Pretrazi</button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table mdbTable #tableEl="mdbTable" class="table table-striped table-hover" id="myTable">
+        <thead>
+            <tr id="column_names_row">
+                <th>RB</th>
+                <th>Sifra</th>
+                <th>Naziv Analize</th>
+            </tr>
+        </thead>
+        <tbody id="analizeTableBody">
+            <tr *ngFor="let analiza of filtriraneAnalize | paginate: paginationConfig">
+                <td>{{analize.indexOf(analiza) + 1}}</td>
+                <td>{{analiza.sifraAnalize}}</td>
+                <td>{{analiza.nazivAnalize}}</td>
+                <td><a class="btn btn-primary" (click)="prikaziAnalizu(analiza)">Prikazi</a></td>
+                <td><a class="btn btn-primary" (click)="obrisiAnalizu(analiza)">Obrisi</a></td>
+            </tr>    
+        </tbody>
+    </table>
+    <div class="table-pagination">
+        <pagination-controls id="analizePagination" (pageChange)="pageChanged($event)"></pagination-controls>
+    </div>
+</div>

@@ -1,11 +1,8 @@
-﻿using FPIS_Projekat.DataAccess.Entities;
-using FPIS_Projekat.Services.DTO;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using WebApp.DTO;
 
-namespace FPIS_Projekat.ViewModels
+namespace WebApp.ViewModels
 {
     public class KarticaEvidencijeViewModel
     {
